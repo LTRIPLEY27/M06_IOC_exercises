@@ -58,20 +58,26 @@ public class Exercici1 {
                         File [] arrayOfFiles =  archivo.listFiles(withOne);
 
                         if (counter <= 3) {
+                                var cont = 0;
+                                System.out.println("Comença el procés d'esborrat");
                                 for (var i : arrayOfFiles) {
-                                    System.out.println(i.getName() + " is deleting");
+                                    System.out.println("Fitxer:   " + i.getAbsolutePath() + "   esborrat amb èxit");
                                     i.delete();
+                                    cont ++;
                                 }
+                                System.out.println(cont  + "  fitxer/s esborrat/s");
                         }
                         else {
                             var i = 0;
                             var sizer = Integer.parseInt(vargs[3]);
-
+                            
+                            System.out.println("Comença el procés d'esborrat");
                             while(i < sizer){
-                                    System.out.println(arrayOfFiles[i].getName() + " is deleting");
+                                    System.out.println("Fitxer:   " + arrayOfFiles[i].getAbsolutePath() + "   esborrat amb èxit");
                                    arrayOfFiles[i].delete();
                                     i++;
-                            }     
+                            }    
+                            System.out.println(i  + "  fitxer/s esborrat/s");
                         }      
         }
     
@@ -89,7 +95,7 @@ public class Exercici1 {
         }
      
    
-        public static void llista(String ... letter){
+        /*public static void llista(String ... letter){
             
                 File archivo = new File(letter[0]);
                 
@@ -118,6 +124,53 @@ public class Exercici1 {
                                       }
                                      
                             }
+                        break;
+                }
+        }*/
+        
+        public static void llista(String ... letter){
+            
+                File archivo = new File(letter[0]);
+                var contF = 0;
+                var contH = 0;
+                String value = letter[2];
+                switch(value.toUpperCase()){
+                    case "N" :                     
+                                for(var i : archivo.listFiles()){
+                                        if(i.isFile()){                                      
+                                                  if (i.isHidden()){
+                                                    System.out.println(i.getName() + "  HIDDEN  " + i.length() + "B");
+                                                 }
+                                                  else {
+                                                      System.out.println(i.getName() + " "+ i.length()+ " B" );
+                                                        if(i.canWrite()){
+                                                            contF++;
+                                                              }
+                                                        }
+                                                  contH++;
+                                             }
+                                }       
+                                System.out.println("Totals " +  contH + "  fitxers i " +  contF + " amb permis d'escriptura");
+                        break;
+                    case "D" :                          
+                                for(var i : archivo.listFiles()){
+                                      if(i.isDirectory()){                 
+                                            if (i.isHidden()){
+                                                    System.out.println("/" + i.getName() + "  HIDDEN  " + i.length() + "B");
+                                            } else {
+                                                System.out.println("/" + i.getName());
+                                            }                                        
+                                            contH++;
+                                        }
+                                      else if(i.isFile() ){
+                                          System.out.println(i.getName() + " "+ i.length()+ " B" );
+                                          contF++;
+                                               if (i.isHidden()){
+                                                    System.out.println(i.getName() + "  HIDDEN  " + i.length() + "B");
+                                               }
+                                      }                                  
+                            }
+                                System.out.println("Totals " +  contF + "  fitxers i " +  contH + " directoris amb permis d'escriptura");
                         break;
                 }
         }
