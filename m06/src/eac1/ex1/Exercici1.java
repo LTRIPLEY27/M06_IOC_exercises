@@ -20,16 +20,35 @@ public class Exercici1 {
      */
     public static void main(String[] args) {
 
-        try {
-            System.out.println(args[0].contains(args[1]) ? "are the same letter" : "not the same letter");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-   
-        String letter = args[1].toUpperCase();
-        
-        switch (letter) {
+        //|| !(args[1].equalsIgnoreCase("e") || args[1].equalsIgnoreCase("l"))
+        // THROWS A ERROR EXCEPTION WITH CODE 2 IF THE ARGUMENTS NOT ARE 3 OR 4  //     || ((args[2].length() != 1)  || !(args[2].equalsIgnoreCase("d") || args[2].equalsIgnoreCase("n") )    // || Integer.parseInt(args[3])< 1
+        //if (args.length <= 2 || args.length >= 5 || !archivo.isDirectory()){
+
+            File archivo = new File(args[0]); // --> LANZA EXCEPCION NULLPOINTER AL INDICAR UNA RUTA ERRADA
+            boolean isDirectory = false;
+            boolean isNoOk = false;
+            boolean isNotOk = false;
+            var countArgs = args.length;
             
+            isDirectory = args.length <= 2 || args.length >= 5 || !archivo.isDirectory() || !(args[1].equalsIgnoreCase("e") || args[1].equalsIgnoreCase("l")) ? true : false;
+         
+            //(args[2].length() != 1 ? true
+            //isNoOk = (args[2].length() != 1 && countArgs == 4  ? (Integer.parseInt(args[3]) < 1 ? true : false)  :  false ); 
+            
+            System.out.println(args[2].length());
+            isNoOk =  args[2].length() != 1 ?  (countArgs == 4  ? (Integer.parseInt(args[3]) < 1 ? true : false) : false) : true;
+            
+            isNotOk =  !(args[2].equalsIgnoreCase("d") || args[2].equalsIgnoreCase("n"))  ? true : false;
+            
+            System.out.println(isDirectory && (isNoOk || isNotOk));
+            if(isDirectory && (isNoOk || isNotOk)){  
+                System.out.println(isDirectory || (isNoOk || isNotOk));
+                System.err.println("Code error " + 2);
+                System.exit(2);            
+            } else {
+      
+        String letter = args[1].toUpperCase();
+            switch (letter) {
             // example -->   "/home/ioc/prueba/" e f 1
                 case "E" : 
                           esborrar(args);
@@ -38,19 +57,18 @@ public class Exercici1 {
                          llista(args);
                      break;
                 default :
-                    System.out.println("Only valit options, please");
+                    System.err.println("Code error " + 2);
+                    System.exit(2);
+                 }      
+            }
         }
-       
-
-    }
-    
-         
-    
-        public static  void esborrar(String ... vargs){
+        
+       public static  void esborrar(String ... vargs){
             
                  var counter = vargs.length;
 
                 // UBICACIÓN EN LA RUTA INDICADA COMO PARAMETRO 0
+                
                 File archivo = new File(vargs[0]); // --> LANZA EXCEPCION NULLPOINTER AL INDICAR UNA RUTA ERRADA
                 FileFilter withOne = null;
             
@@ -80,11 +98,7 @@ public class Exercici1 {
                             System.out.println(i  + "  fitxer/s esborrat/s");
                         }      
         }
-    
-        /**
-        *
-        * @params : the parameter send is the char who the lambda return
-        */
+
         public static FileFilter getTheLambda(String var2){
             
                   FileFilter withOneCharacter = (File toDeleted) ->{
@@ -93,40 +107,7 @@ public class Exercici1 {
                   
                  return withOneCharacter;
         }
-     
-   
-        /*public static void llista(String ... letter){
-            
-                File archivo = new File(letter[0]);
-                
-                String value = letter[2];
-                switch(value.toUpperCase()){
-                    case "N" : 
-                                for(var i : archivo.listFiles()){
-                                        if(i.isFile()){
-                                            System.out.println(i.getName() + " "+ i.length()+ " B" );
-                                               if (i.isHidden()){
-                                                    System.out.println(i.getName() + "  HIDDEN  " + i.length() + "B");
-                                               }
-                                        }
-                                }
-                        break;
-                    case "D" :                          
-                                for(var i : archivo.listFiles()){
-                                      if(i.isDirectory()){
-                                            System.out.println("/" + i.getName());
-                                        }
-                                      else if(i.isFile() ){
-                                          System.out.println(i.getName() + " "+ i.length()+ " B" );
-                                               if (i.isHidden()){
-                                                    System.out.println(i.getName() + "  HIDDEN  " + i.length() + "B");
-                                               }
-                                      }
-                                     
-                            }
-                        break;
-                }
-        }*/
+ 
         
         public static void llista(String ... letter){
             
