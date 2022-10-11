@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import DAM_M06_EAC2_Calzadilla_C.Exercisi1.src.model.Medicament;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -26,10 +27,16 @@ public class GestorMedicament {
 
     private Connection conn = null;
     private PreparedStatement statementPre;
+    private ResultSet result;
     
     // QUERY PARA INSERTAR VALORES EN LA TABLA 'MEDICAMENT', HACEMOS USO DEL AGRUPAMIENTO MEDIANTE PARÉTESIS PARA EL CASO 'TYPUS' EMPRESA
     private final String insertSQL = "INSERT INTO medicament VALUES (?,?,?,?,(?,?,?),?);";
-
+    private final String deleteSQL = "DELETE FROM medicament WHERE id = ?";
+    //private final String selectSQL = "SELECT * FROM medicament WHERE id = ?";
+    private final String selectSQL = "SELECT id, nomMedicament, principiActiu, dosi, (laboratori).nomEmpresa, (laboratori).activa, (laboratori).domicili, contraindicacions FROM medicament WHERE id = ?";
+    
+    // LA QUERY RECIBIRÁ CUALQUIER 
+    private final String selectContraSQL = "SELECT id, nomMedicament, principiActiu, dosi, (laboratori).nomEmpresa, (laboratori).activa, (laboratori).domicili, contraindicacions FROM medicament WHERE ? = ANY(contraindicacions)";
     /**
      * Crea un gestor de l'objecte que treballara amb la connexio conn
      * @param conn connexio a traves de la qual es fan persistents els objectes
@@ -74,9 +81,17 @@ public class GestorMedicament {
      */
    
     public void eliminar(int objId) throws GestorException {
-       //TODO codificar el metode eliminar
        
-       
+        try {
+            statementPre = conn.prepareStatement(deleteSQL);
+            statementPre.setInt(1, objId);
+            
+            if(statementPre.executeUpdate() == 0) {
+                throw new GestorException(" ID Inexistente, verifíque");
+            }
+        } catch (SQLException ex) {
+           throw new GestorException("Error en la preparación del statement con la query de Borrado, verifíque");
+        }
     }
 
 
@@ -89,12 +104,24 @@ public class GestorMedicament {
      */
    
     public Medicament obtenirMedicament(int objId) throws GestorException  {
-        //TODO codificar el metode obtenirMedicament
-        
-        
-        //només per evitar errors de compilació. Canviar-ho
-        return null;
-        
+        try {
+            
+            statementPre = conn.prepareStatement(selectSQL);
+            statementPre.setInt(1, objId);
+            
+            result = statementPre.executeQuery();
+                      
+            // DECLARACIÓN DEL RESULSET YA QUE NOS DEVOLVERÁ UN OBJETO
+            result = statementPre.executeQuery();
+            
+            if(result.next()){
+                return new Medicament(result.getInt("id"), result.getString("nomMedicament"), result.getString("principiActiu"), result.getInt("dosi"), (String[]) result.getArray("contraindicacions").getArray(), result.getString("nomEmpresa"), result.getBoolean("activa"), result.getString("domicili"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new GestorException("Error en la preparación del statement con la query para obtener el Medicamento, verifíque");
+        }
     }
 
     /**
@@ -105,14 +132,28 @@ public class GestorMedicament {
      */
     
     public List<Medicament> obtenirMedicamentPerContraindicacio(String contraindicacio) throws GestorException  {
-        //TODO codificar el metode obtenirMedicamentPerContraindicacio
         
-        //només per evitar errors de compilació. Canviar-ho
-        return null;
-        
-        	
+        try {
+            List <Medicament> medicaments = new ArrayList<>();
+            
+            statementPre = conn.prepareStatement(selectContraSQL);
+            statementPre.setString(1, contraindicacio);
+            
+            result = statementPre.executeQuery();
+            
+            while(result.next()){   
+                medicaments.add(new Medicament(result.getInt("id"), result.getString("nomMedicament"), result.getString("principiActiu"), result.getInt("dosi"), (String[]) result.getArray("contraindicacions").getArray(), result.getString("nomEmpresa"), result.getBoolean("activa"), result.getString("domicili")));
+            }
+            
+            /*for(var i : medicaments){
+                System.out.println(i.getId());
+            }*/
+            
+            return medicaments;
+        } catch (SQLException ex) {
+            throw new GestorException("Error en la preparación del statement con la query para obtener la contraindicación, verifíque");
+        }
     }
     
-
 }
 
