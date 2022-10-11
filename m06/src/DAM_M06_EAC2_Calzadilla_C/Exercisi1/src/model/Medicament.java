@@ -10,7 +10,6 @@ package DAM_M06_EAC2_Calzadilla_C.Exercisi1.src.model;
  * @version  : 10-10-2022
  * @Resum : Activitat 1, M06 UF2
  */
-package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

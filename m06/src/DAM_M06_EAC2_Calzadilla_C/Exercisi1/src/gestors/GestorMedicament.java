@@ -3,18 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAM_M06_EAC2_Calzadilla_C.Exercisi1.src.gestors;
-
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import DAM_M06_EAC2_Calzadilla_C.Exercisi1.src.model.Medicament;
+import java.util.Arrays;
+
+
 
 /**
  * Classe que gestiona la persistencia dels objectes de la classe model
@@ -25,6 +25,10 @@ import DAM_M06_EAC2_Calzadilla_C.Exercisi1.src.model.Medicament;
 public class GestorMedicament {
 
     private Connection conn = null;
+    private PreparedStatement statementPre;
+    
+    // QUERY PARA INSERTAR VALORES EN LA TABLA 'MEDICAMENT', HACEMOS USO DEL AGRUPAMIENTO MEDIANTE PARÉTESIS PARA EL CASO 'TYPUS' EMPRESA
+    private final String insertSQL = "INSERT INTO medicament VALUES (?,?,?,?,(?,?,?),?);";
 
     /**
      * Crea un gestor de l'objecte que treballara amb la connexio conn
@@ -39,12 +43,28 @@ public class GestorMedicament {
      * @param obj Objecte a crear
      * @throws gestors.GestorException en cas d'error a la base de dades que pot ser, entre altres, clau duplicada.
      */
-    public void inserir(Medicament obj) throws GestorException  {
-        //TODO codificar el metode inserir
-     
+    public void inserir(Medicament obj) throws GestorException{
         
+        try {
+            statementPre = conn.prepareStatement(insertSQL);
+            statementPre.setInt(1, obj.getId());  // FALTA EL MÉTODO PARA VERIFICAR SI EXISTE EL ID EN LA TABLA
+            statementPre.setString(2, obj.getNomMedicament());
+            statementPre.setString(3, obj.getPrincipiActiu());
+            statementPre.setInt(4, obj.getDosi());
+            
+            // CONVERSIÓN DEL OBJETO SQL LIST CON EL MÉTODO 'CREATEARRAY OF' Y LAS INDICACIONES A COMPONERLO PARA HACERLO LEGÍBLE EN LA TABLA
+            statementPre.setArray(8, conn.createArrayOf("varchar", obj.getContraindicacions().toArray(new String[10])));
+            statementPre.setString(5, obj.getNomEmpresa());
+            statementPre.setBoolean(6, obj.isActiva());
+            statementPre.setString(7, obj.getDomicili());
+            
+            statementPre.executeUpdate();
+            System.out.println("Correctamente añadido");
+            
+        } catch (SQLException ex) {
+            throw new GestorException("Error en la preparación del statement con la query de insertar, verifíque");
+        }
     }
-
     
     /**
      * Esborra de la base de dades un objecte amb un id determinat

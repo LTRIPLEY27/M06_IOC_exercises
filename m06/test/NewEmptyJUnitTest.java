@@ -1,5 +1,3 @@
-package DAM_M06_EAC2_Calzadilla_C.Exercisi1.test.gestors;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
@@ -22,13 +20,13 @@ import static org.junit.Assert.*;
  *
  * @author ISABE
  */
-public class TestGestor {
+public class NewEmptyJUnitTest {
     
     private final String TAULA="medicament";
     
-    private final String URL="jdbc:postgresql://localhost:5432/eac2_2223s1";
-    private final String USER="ioc";
-    private final String PSW="ioc";
+    private final String URL="jdbc:postgresql://localhost:5432/ioc";
+    private final String USER="postgres";
+    private final String PSW="root";
    
     private GestorMedicament gestor;
     
@@ -50,7 +48,7 @@ public class TestGestor {
     @Before
     public void setUp() throws SQLException, GestorException {
         obrir();
-        buidarTaula();
+        //buidarTaula();
         ferAltes();
         
     }
@@ -79,13 +77,13 @@ public class TestGestor {
         connexio.close();
     }
     
-    private void buidarTaula() throws SQLException{
+    /*private void buidarTaula() throws SQLException{
         PreparedStatement ps=connexio.prepareStatement("DELETE FROM "+TAULA);
         
         ps.executeUpdate();
-    }
+    }*/
     
-    private void ferAltes() throws GestorException, SQLException {
+    private void ferAltes() throws GestorException{
         for(Medicament c : llistat){
             gestor.inserir(c);
         }
@@ -123,7 +121,7 @@ public class TestGestor {
     public void provaAltes() throws GestorException{
     }
     
-    @Test 
+    /*@Test 
     public void provaConsultaPerCodiTots() throws SQLException, GestorException{
         tancarIObrir();  //ens assegurem que s'han gravat els buffers
         
@@ -204,7 +202,7 @@ public class TestGestor {
         assertTrue(comparaObjectes(a,llistat[1]));
 
 
-    }
+    }*/
     
     
     
