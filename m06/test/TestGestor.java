@@ -24,9 +24,9 @@ public class TestGestor {
     
     private final String TAULA = "medicament";
     
-    private final String URL = "jdbc:postgresql://localhost:5432/ioc";
-    private final String USER = "postgres";
-    private final String PSW = "root";
+    private final String URL = "jdbc:postgresql://localhost:5432/eac2_2223s1";
+    private final String USER = "ioc";
+    private final String PSW = "ioc";
    
     private GestorMedicament gestor;
     
