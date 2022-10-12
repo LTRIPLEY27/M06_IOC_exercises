@@ -5,15 +5,20 @@
 package DAM_M06_EAC2_Calzadilla_C.Exercisi2.src.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- *
- * @author professor
+ * Situacio excepcional produida en el sistema de persistencia
+ * @author Isabel Calzadilla M-06
+ * @version  : 12-10-2022
+ * @Resum : Activitat 2, M06 UF2
  */
 
 @Entity
+@Table(name = "medicament")
 public class Medicament implements Serializable{
     
     //TODO: S'han de posar les anotacions corresponents a aquest arxiu
@@ -51,6 +56,7 @@ public class Medicament implements Serializable{
      */
 
     @Id
+    @Column(name = "nombre_serie", length = 20)
     public int getNombreSerie() {
         return nombreSerie;
     }
@@ -65,6 +71,7 @@ public class Medicament implements Serializable{
     /**
      * @return the nomMedicament
      */
+    @Column(name = "nom_medicament", length = 30)
     public String getNomMedicament() {
         return nomMedicament;
     }
@@ -79,6 +86,7 @@ public class Medicament implements Serializable{
     /**
      * @return the preu
      */
+    @Column(name = "preu", length = 10)
     public float getPreu() {
         return preu;
     }
@@ -93,6 +101,7 @@ public class Medicament implements Serializable{
     /**
      * @return the autoritatSanitaria
      */
+    @Column(name = "autoritat_sanitaria", length = 30)
     public String getAutoritatSanitaria() {
         return autoritatSanitaria;
     }
@@ -107,6 +116,7 @@ public class Medicament implements Serializable{
     /**
      * @return the empresa
      */
+    @Column(name = "empresa")
     public String getEmpresa() {
         return empresa;
     }
@@ -121,6 +131,7 @@ public class Medicament implements Serializable{
     /**
      * @return the pesEnMg
      */
+    @Column(name = "pes_en_mg", length = 10)
     public int getPesEnMg() {
         return pesEnMg;
     }
@@ -135,6 +146,7 @@ public class Medicament implements Serializable{
     /**
      * @return the aprovat
      */
+    @Column(name = "aprovat")
     public boolean isAprovat() {
         return aprovat;
     }

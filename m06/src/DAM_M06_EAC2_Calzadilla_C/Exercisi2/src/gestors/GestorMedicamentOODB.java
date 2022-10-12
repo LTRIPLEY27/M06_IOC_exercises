@@ -6,11 +6,13 @@ package DAM_M06_EAC2_Calzadilla_C.Exercisi2.src.gestors;
 
 import javax.persistence.EntityManager;
 import DAM_M06_EAC2_Calzadilla_C.Exercisi2.src.model.Medicament;
-
 /**
- *
- * @author professor
+ * Situacio excepcional produida en el sistema de persistencia
+ * @author Isabel Calzadilla M-06
+ * @version  : 12-10-2022
+ * @Resum : Activitat 2, M06 UF2
  */
+
 public class GestorMedicamentOODB {
      private EntityManager em = null;
      private Medicament entityDB;

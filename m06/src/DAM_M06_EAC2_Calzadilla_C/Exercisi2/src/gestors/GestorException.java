@@ -7,7 +7,9 @@ package DAM_M06_EAC2_Calzadilla_C.Exercisi2.src.gestors;
 
 /**
  * Situacio excepcional produida en el sistema de persistencia
- * @author professor
+ * @author Isabel Calzadilla M-06
+ * @version  : 12-10-2022
+ * @Resum : Activitat 2, M06 UF2
  */
 public class GestorException extends Exception{
 
