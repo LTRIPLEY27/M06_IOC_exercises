@@ -17,9 +17,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author ISABE
+ * @author Isabel Calzadilla M-06
+ * @version  : 10-10-2022
+ * @Resum : Activitat 1, M06 UF2
  */
+
 public class TestGestor {
     
     private final String TAULA = "medicament";
