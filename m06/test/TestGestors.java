@@ -94,7 +94,7 @@ public class TestGestors {
             gestor.inserir(a);
         }
     }
-    
+  
     
     public boolean comparaObjectes(Medicament p1, Medicament p2){
         return  p1.getNombreSerie()==p2.getNombreSerie() &&
@@ -112,6 +112,13 @@ public class TestGestors {
     public void provaAltes(){
         
     }  
+    //*****************************************
+     @Test
+    public void getObject(){
+        Medicament a = gestor.obtenirMedicament(3);
+        assertTrue(comparaObjectes(a,objs[2]));
+    } 
+    //*****************************************
     
     @Test 
     public void provaConsultaPerRefTotes() throws SQLException, GestorException{
