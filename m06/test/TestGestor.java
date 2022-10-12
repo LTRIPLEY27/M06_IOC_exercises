@@ -196,11 +196,11 @@ public class TestGestor {
         Medicament a=gestor.obtenirMedicament(1);
         assertTrue(this.comparaObjectes(a,llistat[0]));
         
-      /*  a=gestor.obtenirMedicament(4);
+        a=gestor.obtenirMedicament(4);
         assertTrue(comparaObjectes(a,llistat[3]));
         
         a=gestor.obtenirMedicament(2);
-        assertTrue(comparaObjectes(a,llistat[1]));*/
+        assertTrue(comparaObjectes(a,llistat[1]));
 
 
     }

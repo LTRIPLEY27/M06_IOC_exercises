@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package eac1.ex1;
+/*package eac1.ex1;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -13,18 +13,18 @@ import java.io.FileFilter;
  * @Data : 24-09-2022
  * @Resum : Activitat 1, M06
  */
-public class Exercici1 {
+/*public class Exercici1 {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
 
         //|| !(args[1].equalsIgnoreCase("e") || args[1].equalsIgnoreCase("l"))
         // THROWS A ERROR EXCEPTION WITH CODE 2 IF THE ARGUMENTS NOT ARE 3 OR 4  //     || ((args[2].length() != 1)  || !(args[2].equalsIgnoreCase("d") || args[2].equalsIgnoreCase("n") )    // || Integer.parseInt(args[3])< 1
         //if (args.length <= 2 || args.length >= 5 || !archivo.isDirectory()){
 
-            File archivo = new File(args[0]); // --> LANZA EXCEPCION NULLPOINTER AL INDICAR UNA RUTA ERRADA
+            /*File archivo = new File(args[0]); // --> LANZA EXCEPCION NULLPOINTER AL INDICAR UNA RUTA ERRADA
             boolean isDirectory = false;
             boolean isNoOk = false;
             boolean isNotOk = false;
@@ -157,3 +157,4 @@ public class Exercici1 {
         }
 
 }
+*/
