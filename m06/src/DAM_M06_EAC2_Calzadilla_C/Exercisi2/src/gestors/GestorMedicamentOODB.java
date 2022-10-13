@@ -4,8 +4,9 @@
  */
 package DAM_M06_EAC2_Calzadilla_C.Exercisi2.src.gestors;
 
-import javax.persistence.EntityManager;
 import DAM_M06_EAC2_Calzadilla_C.Exercisi2.src.model.Medicament;
+import javax.persistence.EntityManager;
+
 /**
  * Situacio excepcional produida en el sistema de persistencia
  * @author Isabel Calzadilla M-06
@@ -47,6 +48,8 @@ public class GestorMedicamentOODB {
         em.getTransaction().begin();
         // CON EL 'MERGE' AGREGAMOS U EDITAMOS EN DATABASE
         em.merge(entityDB);
+        //DETACH LIMPIAR el objeto enviado a la database
+        em.detach(entityDB);
         // CONFIRMAMOS TODO LO PREVIO CON EL MÉTODO 'COMMIT'
         em.getTransaction().commit();
     }
@@ -64,7 +67,6 @@ public class GestorMedicamentOODB {
         if(obtenirMedicament(obj.getNombreSerie()) == null){
             throw new GestorException("Error, ID Inexistente en la database");
         }
-        
         // CASO CONTRARIO, INVOCAMOS EL MERGE YA QUE 'EDITA' U 'AGREGA' EL OBJETO
         em.getTransaction().begin();
         em.merge(obj);
@@ -98,12 +100,13 @@ public class GestorMedicamentOODB {
         //TODO codificar el metode obtenirMedicament
         //RECIBIMOS EL VALOR DEL OBJETO CON EL ID DESDE LA BASE DE DATOS
         entityDB = em.find(Medicament.class, nombreSerie);
-        
+
         if(entityDB == null){
             System.err.println("Error, ID inexistente en la Base de Datos");
             return null;
         }
-        
+        //DETACH LIMPIAR el objeto enviado a la database
+        em.detach(entityDB);
         return entityDB;     
     }
 }

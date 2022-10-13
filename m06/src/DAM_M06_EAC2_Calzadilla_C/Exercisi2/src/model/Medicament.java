@@ -158,9 +158,5 @@ public class Medicament implements Serializable{
         this.aprovat = aprovat;
     }
 
-    
-
-
-
 }
 
