@@ -46,10 +46,12 @@ public class GestorMedicamentOODB {
 
         //LLAMADO AL ENTITY MANAGER PARA DECLARAR LA PERSISTENCIA EN BASE DE DATOS
         em.getTransaction().begin();
-        // CON EL 'MERGE' AGREGAMOS U EDITAMOS EN DATABASE
-        em.merge(entityDB);
+        
         //DETACH LIMPIAR el objeto enviado a la database
         em.detach(entityDB);
+        // CON EL 'MERGE' AGREGAMOS U EDITAMOS EN DATABASE
+        em.merge(entityDB);
+        
         // CONFIRMAMOS TODO LO PREVIO CON EL MÉTODO 'COMMIT'
         em.getTransaction().commit();
     }
