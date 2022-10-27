@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eac3.src.logicaAplicacio.model;
+package logicaAplicacio.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +23,12 @@ import javax.persistence.Table;
 //TODO posar les anotacions necessaries a la classe
 @Entity
 @Table(name = "laboratori")
+// inserción de las namedquerys
+@NamedQueries({
+        @NamedQuery(name = "Laboratori.all", query = "SELECT x FROM Laboratori x"),
+        @NamedQuery(name = "Laboratori.delete", query = "DELETE FROM Laboratori WHERE x.id =:codi"),
+        @NamedQuery(name = "Laboratori.getter", query = "SELECT x FROM Laboratori x WHERE x.id =:codi")       
+})
 public class Laboratori implements Serializable {
     
   private int id;
@@ -55,7 +61,6 @@ public class Laboratori implements Serializable {
     * @return id que identifica 
     */
    @Id
-   @Column(name = "id")
    public int getId() {
         return id;
    }
@@ -72,7 +77,7 @@ public class Laboratori implements Serializable {
     * Obte el nom 
     * @return nom 
     */
-   @Column(name = "nom")
+   @Column(name = "nom", length = 50)
    public String getNom() {
         return nom;
    }
@@ -89,7 +94,7 @@ public class Laboratori implements Serializable {
     * Obte la ciutat on es troba 
     * @return nom de 
     */
-   @Column(name = "ciutat")
+   @Column(name = "ciutat", length = 25)
    public String getCiutat() {
         return ciutat;
    }
@@ -106,8 +111,7 @@ public class Laboratori implements Serializable {
     * Llistat dels productes 
     * @return Llistat dels productes 
     */   
-   
-    // CLASE 1 == N =>  N Productos pertenecen a 1 Laboratorio
+    
     @OneToMany(mappedBy = "laboratori")
     public List<Producte> getProductes() {
         return productes;

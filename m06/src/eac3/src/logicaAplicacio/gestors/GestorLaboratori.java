@@ -17,6 +17,7 @@ import javax.persistence.Query;
 public class GestorLaboratori {
 
     private EntityManager em = null;
+    private Query query = null;
 
     /**
      * Constructor que associa el gestor a un EntityManager
@@ -30,9 +31,15 @@ public class GestorLaboratori {
      * Consultar tots els laboratoris de la base de dades
      * @return Llista amb tots els laboratoris de la base de dades
      */
-    public List<Laboratori> obtenirLaboratoris() {
+    public List<Laboratori> obtenirLaboratoris() /*throws GestorException*/ {
        //TODO completar el metode
-       return null; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
+       query = em.createNamedQuery("Laboratori.all");
+       List <Laboratori> total = query.getResultList();
+       
+       //if(total.isEmpty()){
+           //throw new GestorException("No se encuentran registros");
+      // }
+       return total; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
     }
     
        /**
@@ -42,8 +49,19 @@ public class GestorLaboratori {
      * o hi ha un error en aquesta
      */
     public void eliminar(int id) throws GestorException {
-        //TODO completar el metode
-       
+        
+        if(em.find(Laboratori.class, id) == null){
+            throw new GestorException("El codi no correspon a cap laboratori de la base de dades o hi ha un error en aquesta");
+        }
+        query = em.createNamedQuery("Laboratori.delete");
+        
+        query.setParameter("codi", id);
+        em.getTransaction().begin();
+        
+        query.executeUpdate();
+        em.getTransaction().commit();
+        
+        System.out.println("OK DELETE");
     }
     
     /**
@@ -52,9 +70,28 @@ public class GestorLaboratori {
      * @return  laboratori o null en cas de no haver-hi cap laboratori persistent amb aquest codi
      */
     public Laboratori obtenirLaboratori(int id) {
-        //TODO completar el metode
-       return null; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
-
+      /* query = em.createNamedQuery("Laboratori.getter");
+       query.setParameter("codi", id);
+       
+       Laboratori byQuery = (Laboratori) query.getSingleResult();
+       
+       if(byQuery == null){
+           return null;
+       }
+       
+       return byQuery;*/
+       
+       try{
+            query = em.createNamedQuery("Laboratori.getter");
+            query.setParameter("codi", id);
+            //em.getTransaction().begin();
+            //querys.executeUpdate();
+            //em.getTransaction().commit();
+            Laboratori byId = (Laboratori) query.getSingleResult();
+            return byId;
+        }catch(Exception e){
+            return null;
+        }
     }
     
     /**
@@ -63,8 +100,12 @@ public class GestorLaboratori {
      * @throws logicaAplicacio.gestors.GestorException en cas d'error a la base de dades que pot ser, entre altres, clau duplicada.
      */
     public void inserir(Laboratori lab) throws GestorException {
-        //TODO completar el metode
-
+        if(em.find(Laboratori.class, lab.getId()) != null){
+            throw new GestorException("Clau duplicada");
+        }
+        em.getTransaction().begin();
+        em.merge(lab);
+        em.getTransaction().commit();
     }
     
     /**
@@ -73,8 +114,12 @@ public class GestorLaboratori {
      * @throws logicaAplicacio.gestors.GestorException en cas d'error a la base de dades que pot ser, entre altres, clau inexistent.
     */
     public void modificar(Laboratori lab) throws GestorException{
-        //TODO completar el metode
-
+        if(em.find(Laboratori.class, lab.getId()) == null){
+            throw new GestorException("Clau inexistent.");
+        }
+        em.getTransaction().begin();
+        em.merge(lab);
+        em.getTransaction().commit();
     }
     
     

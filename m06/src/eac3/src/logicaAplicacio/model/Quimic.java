@@ -11,12 +11,21 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * Producte que treballa com a professor de secundària a un institut
  * @author professor
  */
 //TODO posar les anotacions necessaries a la classe
+@Entity
+@Table(name = "quimic")
+@DiscriminatorValue("Q")
+@NamedQueries({
+    @NamedQuery(name = "Quimic.all", query = "SELECT x FROM Quimic x"),
+    @NamedQuery(name = "Quimic.byperillositat", query = "SELECT x FROM Quimic x WHERE x.perillositat = :warning"),//"UPDATE Producte x SET x.preu = x.preu + (x.preu * :incre / 100)"
+    @NamedQuery(name = "Quimic.byincrement", query = "UPDATE Quimic x SET x.preu = x.preu + (x.preu * :incre / 100) WHERE x.perillositat = :warning")
+})
 public class Quimic extends Producte {
     
     private int perillositat;

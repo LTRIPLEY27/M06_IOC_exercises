@@ -78,13 +78,13 @@ public class TestGestors {
         
         List<Producte> auxLlista2=gestorProducte.obtenirProductes();
         
-         for(Laboratori b:auxLlista1){
+        /*for(Laboratori b:auxLlista1){
             gestorLaboratori.eliminar(b.getId());
         }
         
         for(Producte b:auxLlista2){
             gestorProducte.eliminar(b.getId());
-        }
+        }*/
         
         fesAltes();//fem l'alta de les dades de prova
         

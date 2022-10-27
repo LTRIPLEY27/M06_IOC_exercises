@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package eac3.src.logicaAplicacio.model;
+package logicaAplicacio.model;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -20,6 +20,13 @@ import javax.persistence.Table;
 //TODO posar les anotacions necessaries a la classe
 @Entity
 @Table(name = "medicament")
+@DiscriminatorValue("M")
+@NamedQueries({
+    @NamedQuery(name = "Medicament.all", query = "SELECT x FROM Medicament x"),
+    @NamedQuery(name = "Medicament.bylab", query = "SELECT x FROM Medicament x WHERE x.laboratori.id = :codi"),
+    @NamedQuery(name = "Medicament.bypa", query = "SELECT x FROM Medicament x WHERE x.principiActiu = :pa"),
+    @NamedQuery(name = "Medicament.byprice", query = "SELECT x FROM Medicament x WHERE x.preu = :price")
+})
 public class Medicament extends Producte {
     
     private String principiActiu;
@@ -44,7 +51,7 @@ public class Medicament extends Producte {
         this.principiActiu = pa;   
     }
 
-    @Column(name = "principi_actiu")
+    @Column(name = "principi_actiu", length = 100)
     public String getPrincipiActiu() {
         return principiActiu;
     }

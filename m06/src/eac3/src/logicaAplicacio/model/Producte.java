@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 
-package eac3.src.logicaAplicacio.model;
+package logicaAplicacio.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import static javax.persistence.DiscriminatorType.CHAR;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import static javax.persistence.InheritanceType.JOINED;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -25,10 +25,18 @@ import javax.persistence.Table;
  * @author alumne
  */
 //TODO posar les anotacions necessaries a la classe
-
 @Entity
+@Inheritance(strategy = SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipusProducte",discriminatorType = CHAR, length = 1)
+//@DiscriminatorValue("P")
+@NamedQueries({
+    @NamedQuery(name = "Producte.all", query = "SELECT x FROM Producte x"),
+    @NamedQuery(name = "Producte.delete", query = "DELETE FROM Producte x WHERE x.id = :codi"),
+    @NamedQuery(name = "Producte.getter", query = "SELECT x FROM Producte x WHERE x.id = :codi"),
+    @NamedQuery(name = "Producte.up", query = "UPDATE Producte x SET x.preu = x.preu + (x.preu * :incre / 100)"),
+    @NamedQuery(name = "Producte.update", query = "UPDATE Producte x SET x.nom = :nom, x.preu = :preu, x.laboratori = :laboratori WHERE x.id = :codi") //SET x.nom = :nom, x.preu = :preu, x.laboratori = :laboratori WHERE
+})
 @Table(name = "producte")
-@Inheritance(strategy = JOINED)
 public class Producte implements Serializable {
   private int id;
   private String nom;
@@ -61,8 +69,8 @@ public class Producte implements Serializable {
     * Obte el codi que identifica el objecte
     * @return id que identifica el objecte
     */
+   
    @Id
-   @Column(name = "id")
    public int getId() {
         return id;
    }
@@ -79,8 +87,7 @@ public class Producte implements Serializable {
     * Obte el nom del objecte
     * @return nom del objecte
     */
-   
-   @Column(name = "nom")
+   @Column(name = "nom", length = 50)
    public String getNom() {
         return nom;
    }
@@ -97,7 +104,7 @@ public class Producte implements Serializable {
     * Obte el preu del objecte
     * @return preu del objecte
     */
-   @Column(name = "preu")
+   
    public float getPreu() {
         return preu;
    }

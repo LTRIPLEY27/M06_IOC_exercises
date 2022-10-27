@@ -16,6 +16,7 @@ import logicaAplicacio.model.Quimic;
  */
 public class GestorQuimic {
     private EntityManager em = null;
+    private Query query;
 
     /**
      * Crea un gestor de productes quimics que treballara amb l'EntityManager em
@@ -30,8 +31,8 @@ public class GestorQuimic {
      * @return Llista amb tots els productes quimics de la base de dades
      */
     public List<Quimic> obtenirProductesQuimics() {
-       //TODO completar el metode
-       return null; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
+       query = em.createNamedQuery("Quimic.all");
+       return query.getResultList(); // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
     }
    
     /**
@@ -40,8 +41,9 @@ public class GestorQuimic {
      * @return llistat amb els productes quimics de la base de dades amb una `perillositat determinada
      */
     public List<Quimic> obtenirQuimicPerPerillositat(int perillositat) {
-       //TODO completar el metode
-       return null; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
+       query = em.createNamedQuery("Quimic.byperillositat");
+       query.setParameter("warning", perillositat);
+       return query.getResultList(); // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
     }
     
      /**
@@ -50,8 +52,24 @@ public class GestorQuimic {
      * @param percentantge tant per cent (%) d'increment 
      */
     public void incrementarPreusSegonsPerillositat(int p, float percentantge){
-        //TODO completar el metode
-      
+       
+       query = em.createNamedQuery("Quimic.byincrement");
+       query.setParameter("incre", percentantge);
+       query.setParameter("warning", p);
+       em.getTransaction().begin();
+       query.executeUpdate();
+       em.getTransaction().commit();
+       
+       //UPDATE Quimic x SET x.preu = x.preu + (x.preu * :incre / 100) WHERE x.perillositat = :warning"
+       /*query = em.createQuery("SELECT a FROM Quimic a WHERE a.perillositat =" + p);
+       List <Quimic> quimics = query.getResultList();
+       
+       for(var i : quimics){
+           i.setPreu(i.getPreu() + (i.getPreu() * percentantge / 100));
+           em.getTransaction().begin();
+           em.merge(i);
+           em.getTransaction().commit();
+       }*/
     }
 
 }

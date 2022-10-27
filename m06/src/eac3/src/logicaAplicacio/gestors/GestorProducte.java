@@ -18,6 +18,7 @@ import javax.persistence.Query;
 public class GestorProducte {
 
     private EntityManager em = null;
+    private Query querys;
 
     /**
      * Constructor que associa el gestor a un EntityManager
@@ -32,8 +33,10 @@ public class GestorProducte {
      * @return Llista amb tots els producte de la base de dades
      */
     public List<Producte> obtenirProductes() {
-       //TODO completar el metode
-        return null; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
+       
+        querys = em.createNamedQuery("Producte.all");
+  
+        return querys.getResultList();
     }
      /**
      * Esborra el producte de la base de dades que te un determinat codi
@@ -42,8 +45,18 @@ public class GestorProducte {
      * o hi ha un error en aquesta
      */
     public void eliminar(int id) throws GestorException {
-        //TODO completar el metode
-   
+        
+        if(obtenirProducte(id) == null){
+            throw new GestorException("ID inexistente");
+        }
+        querys = em.createNamedQuery("Producte.delete");
+        // EL SETTEO DE LA QUERY HA DE REALIZARSE FUERA DE LA INVOCACIÓN DEL TRANSACTION
+        querys.setParameter("codi", id);
+        em.getTransaction().begin();
+        querys.executeUpdate();
+        
+        em.getTransaction().commit();
+        
     }
 
     /**
@@ -52,8 +65,14 @@ public class GestorProducte {
      * @return objecte o null en cas de no haver-hi cap producte persistent amb aquest codi
      */
     public Producte obtenirProducte(int id) {
-        //TODO completar el metode
-        return null; // nomes esta perque no doni error de compilacio; probablement s'haura d'eliminar o canviar
+        try{
+            querys = em.createNamedQuery("Producte.getter");
+            querys.setParameter("codi", id);
+
+            return (Producte) querys.getSingleResult();
+        } catch(Exception e){
+            return null;
+        }  
     }
 
     /**
@@ -62,8 +81,14 @@ public class GestorProducte {
      * @throws logicaAplicacio.gestors.GestorException en cas d'error a la base de dades que pot ser, entre altres, clau duplicada.
      */
     public void inserir(Producte p) throws GestorException {
-        //TODO completar el metode
-
+       
+        if(em.find(Producte.class, p.getId()) != null){
+            throw new GestorException("Id registrado");
+        }
+        
+        em.getTransaction().begin();
+        em.merge(p);
+        em.getTransaction().commit();   
     }
 
    /**
@@ -72,7 +97,21 @@ public class GestorProducte {
      * @throws logicaAplicacio.gestors.GestorException en cas d'error a la base de dades que pot ser, entre altres, clau inexistent.
     */
     public void modificar(Producte p) throws GestorException{
-       //TODO completar el metode
+       
+       if(em.find(Producte.class, p.getId()) == null){
+           throw new GestorException("Clau inexistent.");
+       }
+       querys = em.createNamedQuery("Producte.update");
+       querys.setParameter("nom", p.getNom());
+       querys.setParameter("preu", p.getPreu());
+       querys.setParameter("laboratori", p.getLaboratori());
+       querys.setParameter("codi", p.getId());
+       
+       
+       em.getTransaction().begin();
+       querys.executeUpdate();
+       //em.merge(p);
+       em.getTransaction().commit();
     }
     
    /**
@@ -80,7 +119,23 @@ public class GestorProducte {
      * @param percentantge tant per cent (%) d'increment 
      */
     public void incrementarPreu(float percentantge){
-        //TODO completar el metode
+        /*querys = em.createNamedQuery("Producte.all");
+        
+        List <Producte> totals = querys.getResultList();
+        for(var i : totals){
+            i.setPreu(i.getPreu() + (i.getPreu() * percentantge / 100));
+            em.getTransaction().begin();
+            em.merge(i);
+            em.getTransaction().commit();
+        }*/
+        
+        //**************************************************
+        
+        querys = em.createNamedQuery("Producte.up");
+        querys.setParameter("incre", percentantge);
+        em.getTransaction().begin();
+        querys.executeUpdate();
+        em.getTransaction().commit();
     }
     
 }

@@ -17,8 +17,8 @@ import javax.persistence.Table;
  * @Resum : Activitat 2, M06 UF2
  */
 
-@Entity
-@Table(name = "medicament")
+//@Entity
+//@Table(name = "medicament")
 public class Medicament implements Serializable{
     
     //TODO: S'han de posar les anotacions corresponents a aquest arxiu
